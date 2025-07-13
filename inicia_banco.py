@@ -1,0 +1,35 @@
+import sqlite3
+
+conn = sqlite3.connect('MENSA.db')
+mysql_link = conn.cursor()
+
+
+comandos_sql = """
+
+DROP TABLE IF EXISTS MEN;
+DROP TABLE IF EXISTS USU;
+
+CREATE TABLE USU (
+    USU_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    LOGIN VARCHAR(255) NOT NULL,
+    SENHA VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE MEN (
+    MEN_REM_ID INTEGER NOT NULL,
+    MEN_DES_ID INTEGER NOT NULL,
+    MENS VARCHAR(255) NOT NULL,
+    HOR DATETIME NOT NULL,
+    FOREIGN KEY (MEN_REM_ID) REFERENCES USU(USU_ID),
+    FOREIGN KEY (MEN_DES_ID) REFERENCES USU(USU_ID)
+);
+
+INSERT INTO USU (LOGIN, SENHA) VALUES ('paulo', 123);
+INSERT INTO USU (LOGIN, SENHA) VALUES ('sergio', 123);
+
+"""
+
+mysql_link.executescript(comandos_sql)
+
+conn.commit()
+conn.close()
